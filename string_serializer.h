@@ -24,6 +24,12 @@ public:
 
     char* GetString();
 
+    template<typename T>
+    StringSerializer& operator<<(T t);
+
+    template<typename T>
+    StringSerializer& operator>>(T& t);
+
 private:
     char *_buf;
     int _bufSize, _dataSize;
@@ -40,6 +46,20 @@ StringSerializer::~StringSerializer() {
 
 char *StringSerializer::GetString() {
     return _buf;
+}
+
+template<typename T>
+StringSerializer &StringSerializer::operator<<(T t) {
+    memcpy(_buf + _dataSize, (char*)&t, sizeof(t));
+    _dataSize += sizeof(t);
+    return *this;
+}
+
+template<typename T>
+StringSerializer &StringSerializer::operator>>(T &t) {
+    memcpy((char*)&t, _buf + _dataSize, sizeof(t));
+    _dataSize += sizeof(t);
+    return *this;
 }
 
 
