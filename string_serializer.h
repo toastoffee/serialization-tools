@@ -20,6 +20,7 @@
 class StringSerializer {
 public:
     explicit StringSerializer(int bufSize = DEFAULT_SERIALIZED_BUF_SIZE);
+    StringSerializer(const char* buf, int bufSize);
     ~StringSerializer();
 
     char* GetString();
@@ -38,6 +39,11 @@ private:
 StringSerializer::StringSerializer(int bufSize) : _bufSize(bufSize), _dataSize(0) {
     _buf = new char[_bufSize];
     memset(_buf,0x00, _bufSize);
+}
+
+StringSerializer::StringSerializer(const char *buf, int bufSize) : _bufSize(bufSize), _dataSize(0) {
+    _buf = new char[_bufSize];
+    memcpy(_buf, buf, bufSize);
 }
 
 StringSerializer::~StringSerializer() {
