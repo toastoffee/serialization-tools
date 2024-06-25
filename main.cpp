@@ -2,6 +2,7 @@
 
 #include "string_serializer.h"
 #include "src/buffer.hpp"
+#include "src/type_helper.h"
 
 struct A{
     int a;
@@ -23,17 +24,26 @@ struct A{
 };
 
 int main() {
-    A a;
-    a.a = 10;
-    a.b = 20.2;
-    a.c = 30.3;
-    char *s = a.Serialize();
+//    A a;
+//    a.a = 10;
+//    a.b = 20.2;
+//    a.c = 30.3;
+//    char *s = a.Serialize();
+//
+//
+//    A b;
+//    b.UnSerialize(s);
+//
+//    std::cout << b.a << " " << b.b << " " << b.c << std::endl;
 
+    int a = 1;
+    int *b = new int(2);
+    int **c = &b;
 
-    A b;
-    b.UnSerialize(s);
+    std::cout << IsPointer(a) << std::endl;
+    std::cout << IsPointer(b) << std::endl;
+    std::cout << IsPointer(c) << std::endl;
 
-    std::cout << b.a << " " << b.b << " " << b.c << std::endl;
 
     return 0;
 }
