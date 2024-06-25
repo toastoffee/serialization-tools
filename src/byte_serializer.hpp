@@ -16,12 +16,42 @@
 #include "buffer.hpp"
 
 class ByteSerializer {
+    ByteSerializer();
+    explicit ByteSerializer(Buffer buf);
 
+    template<typename T> void Write(T t);
 
+    template<typename T> void Read(T& t);
+
+    Buffer GetBuffer();
 
 private:
     Buffer _buf;
+    int _offset;
 };
 
+ByteSerializer::ByteSerializer() :
+    _offset(0),
+    _buf() { }
+
+ByteSerializer::ByteSerializer(Buffer buf) :
+    _buf(std::move(buf)),
+    _offset(0) { }
+
+template<typename T>
+void ByteSerializer::Write(T t) {
+    _buf.Write(t);
+}
+
+template<typename T>
+void ByteSerializer::Read(T &t) {
+    t = _buf.Read<T>(_offset);
+    _offset += sizeof(t);
+}
+
+
+Buffer ByteSerializer::GetBuffer() {
+    return _buf;
+}
 
 #endif //SERIALIZATION_TOOLS_BYTE_SERIALIZER_HPP

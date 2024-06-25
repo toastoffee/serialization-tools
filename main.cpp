@@ -3,6 +3,7 @@
 #include "string_serializer.h"
 #include "src/buffer.hpp"
 #include "src/type_helper.h"
+#include "src/byte_serializer.hpp"
 
 struct A{
     int a;
