@@ -16,6 +16,7 @@
 #include "buffer.hpp"
 
 class ByteSerializer {
+public:
     ByteSerializer();
     explicit ByteSerializer(Buffer buf);
 

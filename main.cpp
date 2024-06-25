@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 
 #include "string_serializer.h"
 #include "src/buffer.hpp"
@@ -24,6 +25,28 @@ struct A{
     }
 };
 
+struct B{
+    int a;
+    double b;
+    float c;
+
+    Buffer Serialize() const{
+        ByteSerializer bs;
+        bs.Write(a);
+        bs.Write(b);
+        bs.Write(c);
+        return bs.GetBuffer();
+    }
+
+    void UnSerialize(Buffer buffer){
+        ByteSerializer bs(std::move(buffer));
+        bs.Read(a);
+        bs.Read(b);
+        bs.Read(c);
+    }
+
+};
+
 int main() {
 //    A a;
 //    a.a = 10;
@@ -37,14 +60,16 @@ int main() {
 //
 //    std::cout << b.a << " " << b.b << " " << b.c << std::endl;
 
-    int a = 1;
-    int *b = new int(2);
-    int **c = &b;
+    B test1;
+    test1.a = 10;
+    test1.b = 20.2;
+    test1.c = 30.3;
+    Buffer buf1 = test1.Serialize();
 
-    std::cout << IsPointer(a) << std::endl;
-    std::cout << IsPointer(b) << std::endl;
-    std::cout << IsPointer(c) << std::endl;
+    B test2;
+    test2.UnSerialize(buf1);
 
+    std::cout << test2.a << " " << test2.b << " " << test2.c << std::endl;
 
     return 0;
 }

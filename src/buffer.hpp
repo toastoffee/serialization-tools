@@ -56,14 +56,15 @@ private:
 };
 
 
-Buffer::Buffer(int BufferCapacity) :
-        _data(new Byte[BufferCapacity] {0}),
-        _bufCapacity(BufferCapacity),
+Buffer::Buffer(int bufferCapacity) :
+        _data(new Byte[bufferCapacity] {0}),
+        _bufCapacity(bufferCapacity),
         _bufSize(0) {
+    memset(_data, 0x00, _bufCapacity);
 }
 
 Buffer::~Buffer() {
-    delete[] _data;
+//    delete[] _data;
 }
 
 Buffer::Buffer(const Buffer& other){
