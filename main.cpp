@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "string_serializer.h"
-#include "src/buffer.h"
+#include "src/buffer.hpp"
 
 struct A{
     int a;
