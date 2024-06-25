@@ -13,9 +13,14 @@
 #ifndef SERIALIZATION_TOOLS_BYTE_SERIALIZER_HPP
 #define SERIALIZATION_TOOLS_BYTE_SERIALIZER_HPP
 
+#include "buffer.hpp"
 
 class ByteSerializer {
 
+
+
+private:
+    Buffer _buf;
 };
 
 

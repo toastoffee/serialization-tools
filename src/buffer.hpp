@@ -21,6 +21,7 @@ typedef unsigned char Byte;
 #define DEFAULT_BUFFER_MAX_SIZE 1024
 
 class Buffer {
+public:
     explicit Buffer(int bufferCapacity = DEFAULT_BUFFER_MAX_SIZE);
     ~Buffer();
 
@@ -41,10 +42,12 @@ class Buffer {
     template<typename T>
     T Read(int offset);
 
-
     int GetCapacity() const { return _bufCapacity; }
     int GetSize() const { return _bufSize; }
     Byte* GetData() const { return _data; }
+
+private:
+    void ExpandCapacity();
 
 private:
     Byte *_data;
@@ -105,6 +108,10 @@ void Buffer::Write(const T value, int offset) {
         throw std::length_error("can't write buffer to negative offset");
     }
 
+    while(_bufCapacity < offset + sizeof(T)){
+        ExpandCapacity();
+    }
+
     memcpy(_data + offset, &value, sizeof(T));
 
     _bufSize = (offset + sizeof(T) > _bufSize) ? (offset + sizeof(T)) : _bufSize;
@@ -125,6 +132,16 @@ T Buffer::Read(int offset) {
     return static_cast<T>(_data[offset]);
 }
 
+void Buffer::ExpandCapacity() {
 
+    // exponential expand
+    Byte *former = _data;
+
+    _bufCapacity *= 2;
+    _data = new Byte[_bufCapacity] {0};
+
+    memcpy(_data, former, _bufSize);
+    delete[] former;
+}
 
 #endif //SERIALIZATION_TOOLS_BUFFER_HPP
