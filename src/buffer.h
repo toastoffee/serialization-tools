@@ -18,7 +18,7 @@ typedef unsigned char Byte;
 #define DEFAULT_BUFFER_MAX_SIZE 1024
 
 class Buffer {
-    explicit Buffer(int bufferSize = DEFAULT_BUFFER_MAX_SIZE);
+    explicit Buffer(int bufferCapacity = DEFAULT_BUFFER_MAX_SIZE);
     ~Buffer();
 
     // copy constructor and assignment
@@ -28,20 +28,18 @@ class Buffer {
     // move constructor and assignment
     Buffer(Buffer&& other);
     Buffer& operator=(Buffer&& other);
-    
-private:
-    Byte *data;
 
+
+    int GetCapacity() const { return _bufCapacity; }
+    int GetSize() const { return _bufSize; }
+    Byte* GetData() const { return _data; }
+
+private:
+    Byte *_data;
+    int _bufCapacity,_bufSize;
 
 };
 
-Buffer& Buffer::operator=(const Buffer &other) {
-
-}
-
-Buffer& Buffer::operator=(Buffer &&other) {
-
-}
 
 
 #endif //SERIALIZATION_TOOLS_BUFFER_H
