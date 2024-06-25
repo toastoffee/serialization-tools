@@ -37,7 +37,10 @@ class Buffer {
 
     template<typename T>
     void Write(T Value);
-    
+
+    template<typename T>
+    T Read(int offset);
+
 
     int GetCapacity() const { return _bufCapacity; }
     int GetSize() const { return _bufSize; }
@@ -64,6 +67,16 @@ void Buffer::Write(const T value, int offset) {
 template<typename T>
 void Buffer::Write(const T value) {
     Write(value, _bufSize);
+}
+
+template<typename T>
+T Buffer::Read(int offset) {
+
+    if(offset + sizeof(T) >= _bufCapacity || offset < 0){
+        throw std::length_error("buffer read out of bounds");
+    }
+
+    return static_cast<T>(_data[offset]);
 }
 
 

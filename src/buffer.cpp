@@ -56,3 +56,4 @@ Buffer& Buffer::operator=(Buffer &&other) {
 
     return *this;
 }
+
