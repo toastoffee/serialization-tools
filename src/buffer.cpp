@@ -11,7 +11,6 @@
 
 
 #include "buffer.h"
-#include <memory>
 
 Buffer::Buffer(int BufferCapacity) :
     _data(new Byte[BufferCapacity] {0}),

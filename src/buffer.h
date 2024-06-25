@@ -13,6 +13,9 @@
 #ifndef SERIALIZATION_TOOLS_BUFFER_H
 #define SERIALIZATION_TOOLS_BUFFER_H
 
+
+#include <memory>
+
 typedef unsigned char Byte;
 
 #define DEFAULT_BUFFER_MAX_SIZE 1024
@@ -29,6 +32,12 @@ class Buffer {
     Buffer(Buffer&& other);
     Buffer& operator=(Buffer&& other);
 
+    template<typename T>
+    void Write(T value, int offset);
+
+    template<typename T>
+    void Write(T Value);
+    
 
     int GetCapacity() const { return _bufCapacity; }
     int GetSize() const { return _bufSize; }
@@ -39,6 +48,23 @@ private:
     int _bufCapacity,_bufSize;
 
 };
+
+template<typename T>
+void Buffer::Write(const T value, int offset) {
+
+    if(offset < 0){
+        throw std::length_error("can't write buffer to negative offset");
+    }
+
+    memcpy(_data + offset, &value, sizeof(T));
+
+    _bufSize = (offset + sizeof(T) > _bufSize) ? (offset + sizeof(T)) : _bufSize;
+}
+
+template<typename T>
+void Buffer::Write(const T value) {
+    Write(value, _bufSize);
+}
 
 
 

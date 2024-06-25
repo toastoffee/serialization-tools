@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "string_serializer.h"
+#include "src/buffer.h"
 
 struct A{
     int a;
