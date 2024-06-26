@@ -46,7 +46,10 @@ void ByteSerializer::Write(T t) {
 
 template<typename T>
 void ByteSerializer::Read(T &t) {
-    t = _buf.Read<T>(_offset);
+//    t = _buf.Read<T>(_offset);
+//    _offset += sizeof(t);
+
+    _buf.Read(t, _offset);
     _offset += sizeof(t);
 }
 

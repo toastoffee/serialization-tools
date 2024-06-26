@@ -40,7 +40,7 @@ public:
     void Write(T Value);
 
     template<typename T>
-    T Read(int offset);
+    void Read(T &t, int offset);
 
     int GetCapacity() const { return _bufCapacity; }
     int GetSize() const { return _bufSize; }
@@ -124,13 +124,13 @@ void Buffer::Write(const T value) {
 }
 
 template<typename T>
-T Buffer::Read(int offset) {
+void Buffer::Read(T &t, int offset) {
 
     if(offset + sizeof(T) >= _bufCapacity || offset < 0){
         throw std::length_error("buffer read out of bounds");
     }
 
-    return static_cast<T>(_data[offset]);
+    memcpy((Byte*)&t, _data + offset, sizeof(t));
 }
 
 void Buffer::ExpandCapacity() {
@@ -144,5 +144,6 @@ void Buffer::ExpandCapacity() {
     memcpy(_data, former, _bufSize);
     delete[] former;
 }
+
 
 #endif //SERIALIZATION_TOOLS_BUFFER_HPP
