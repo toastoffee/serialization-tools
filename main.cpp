@@ -16,7 +16,7 @@ struct B{
         bs.Write(a);
         bs.Write(b);
         bs.Write(c);
-        bs.Write(arr,3);
+        bs.Write(arr, 3);
         return bs.GetBuffer();
     }
 

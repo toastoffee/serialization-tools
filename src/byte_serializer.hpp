@@ -32,7 +32,7 @@ public:
     ByteSerializer();
     explicit ByteSerializer(Buffer buf);
 
-    // basic types
+    // basic types write
     inline void Write(int8 val) { _buf.Write(val); }
     inline void Write(uint8 val) { _buf.Write(val); }
     inline void Write(int16 val) { _buf.Write(val); }
@@ -45,22 +45,50 @@ public:
     inline void Write(uint64 val) { _buf.Write(val); }
     inline void Write(bool val) { _buf.Write(val); }
 
-    // array
-    template<typename T>
-    inline void Write(T arr[], int count){
-        for(int i = 0; i < count; i++){
-            Write(arr[i]);
-        }
-    }
+    // array write
+//    inline void Write(int8 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(uint8 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(int16 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(uint16 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void WriteArr(int32 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(uint32 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(float32 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(float64 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(int64 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(uint64 arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
+//    inline void Write(bool arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
 
-    template<typename T> void Read(T& t);
+    template<class T>
+    inline void Write(T arr[], int count){ for (int i = 0; i < count; i++) Write(arr[i]); }
 
-    template<typename T>
-    inline void Read(T arr[], int count){
-        for(int i = 0; i < count; i++){
-            Read(arr[i]);
-        }
-    }
+    // basic types read
+    inline void Read(int8 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(uint8 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(int16 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(uint16 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(int32 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(uint32 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(float32 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(float64 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(int64 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(uint64 &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+    inline void Read(bool &val){ _buf.Read(val, _offset); _offset += sizeof(val); }
+
+    // array read
+//    inline void Read(int8 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(uint8 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(int16 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(uint16 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(int32 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(uint32 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(float32 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(float64 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(int64 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(uint64 arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+//    inline void Read(bool arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
+
+    template<class T>
+    inline void Read(T arr[], int count){ for (int i = 0; i < count; i++) Read(arr[i]); }
 
     Buffer GetBuffer();
 
@@ -76,15 +104,6 @@ ByteSerializer::ByteSerializer() :
 ByteSerializer::ByteSerializer(Buffer buf) :
     _buf(std::move(buf)),
     _offset(0) { }
-
-
-template<typename T>
-void ByteSerializer::Read(T &t) {
-    _buf.Read(t, _offset);
-    _offset += sizeof(t);
-}
-
-
 
 Buffer ByteSerializer::GetBuffer() {
     return _buf;
