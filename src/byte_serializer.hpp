@@ -32,6 +32,7 @@ public:
     ByteSerializer();
     explicit ByteSerializer(Buffer buf);
 
+    // basic types
     inline void Write(int8 val) { _buf.Write(val); }
     inline void Write(uint8 val) { _buf.Write(val); }
     inline void Write(int16 val) { _buf.Write(val); }
@@ -44,7 +45,22 @@ public:
     inline void Write(uint64 val) { _buf.Write(val); }
     inline void Write(bool val) { _buf.Write(val); }
 
+    // array
+    template<typename T>
+    inline void Write(T arr[], int count){
+        for(int i = 0; i < count; i++){
+            Write(arr[i]);
+        }
+    }
+
     template<typename T> void Read(T& t);
+
+    template<typename T>
+    inline void Read(T arr[], int count){
+        for(int i = 0; i < count; i++){
+            Read(arr[i]);
+        }
+    }
 
     Buffer GetBuffer();
 
